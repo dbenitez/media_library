@@ -1,0 +1,30 @@
+{% extends 'base_internal.html' %}
+{% block page_content %}
+    <a href="{% url 'software:vendor_create' %}" class="btn btn-primary">Create Vendor</a>
+    {% if vendor_list %}
+    <table class="table table-sm table-hover table-striped">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>URL</th>
+                <th>Logo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vendor in vendor_list %}
+            <tr>
+                <td>{{vendor.name}}</td>
+                <td>{{vendor.url}}</td>
+                <td>{{vendor.logo.attachment.url}}</td>
+                <td><a href="{% url 'software:vendor_update' pk=vendor.id %}">Edit</a></td>
+            </tr>
+            {% endfor %}   
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-warning">There are no vendors defined</div>
+    {% endif %}
+    {% if vendors.has_other_pages %}
+
+    {% endif %}
+{% endblock%}

@@ -1,29 +1,37 @@
 from pyexpat import model
 from django.db import models
 
+from attachment.models import Attachment
+
 # Create your models here.
 
 class Vendor(models.Model):
     name = models.CharField(max_length=128)
     website = models.URLField(null=True, blank=True)
+    logo = models.ForeignKey(Attachment, on_delete=models.SET_NULL, null=True, blank=True)
 
 
 class Product(models.Model):
     name = models.CharField(max_length=128)
     description = models.TextField(null=True, blank=True)
 
+
 class ProductType(models.Model):
     name = models.CharField(max_length=16)
 
+
 class ProductPlatform(models.Model):
     name = models.CharField(max_length=16)
+
 
 class ProductCPU(models.Model):
     name = models.CharField(max_length=16)
     display_order = models.PositiveSmallIntegerField()
 
+
 class ProductUI(models.Model):
     name = models.CharField(max_length=16)
+
 
 class ProductVersion(models.Model):
     product = models.ForeignKey(Product,on_delete=models.PROTECT)
@@ -39,4 +47,5 @@ class ProductVersion(models.Model):
     ui = models.ForeignKey(ProductUI, on_delete=models.SET_NULL, null=True)
     platforms = models.ManyToManyField(ProductPlatform, blank=True)
     types = models.ManyToManyField(ProductType, blank=True)
+    attachments = models.ManyToManyField(Attachment)
 
